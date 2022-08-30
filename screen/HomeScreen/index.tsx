@@ -43,7 +43,9 @@ const HomeScreen = () => {
 
   const deletePath = async () => {
     const path = RNFS.DocumentDirectoryPath + '/text.xml';
-    RNFS.unlink(path)
+    const path1 = RNFS.DocumentDirectoryPath + '/test.mov';
+
+    RNFS.unlink(path,path1)
       .then(() => {
         console.log('FILE DELETED');
       })
@@ -54,15 +56,18 @@ const HomeScreen = () => {
 
   const createfile = async () => {
     const path = RNFS.DocumentDirectoryPath + '/text.xml';
+    const base64Data = await RNFS.readFile(image,'base64')
+    const path1 = RNFS.DocumentDirectoryPath + '/test.mov';
+    await RNFS.writeFile(path1,base64Data,'base64')
     RNFS.exists(path).then(exists => {
       if (exists) {
         Alert.alert('Path is exists');
       } else {
         RNFS.writeFile(path, title + '  ' + image, 'utf8')
           .then(success => {
-            console.log('FILE WRITTEN!');
             runTest();
             clearButton();
+            Alert.alert("WRITTEN")
           })
           .catch(err => {
             console.log(err.message);
@@ -81,6 +86,8 @@ const HomeScreen = () => {
       }
     });
   };
+
+
 
   const openLibrary = () => {
     const options = {
